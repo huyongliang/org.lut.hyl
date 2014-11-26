@@ -8,10 +8,20 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hyl.utils.checkcode.CheckCode.CODE_TYPE;
-import org.hyl.utils.checkcode.impl.DefaultCheckCode;
-
+/**
+ * 针对于{@link CheckCode}的实现类的工具类
+ * 
+ * @author HuYongliang
+ *
+ */
 public class CheckCodeUtil {
+	/**
+	 * 发送参数code生产的验证码到response对应的客户端，并将验证码加入session中
+	 * 
+	 * @param request
+	 * @param response
+	 * @param code
+	 */
 	public static void sendCheckCodeToClient(HttpServletRequest request,
 			HttpServletResponse response, CheckCode code) {
 		BufferedImage image = code.getCheckCode(request);
@@ -46,12 +56,18 @@ public class CheckCodeUtil {
 	 */
 	public static boolean isValid(HttpServletRequest request,
 			String clientAnswer, CheckCode checkCode) {
-		return checkCode.isValid(request, clientAnswer);
+		return CheckCode.isValid(request, clientAnswer);
 	}
 
+	/**
+	 * 判断client传送的验证码是否正确
+	 * 
+	 * @param request
+	 * @param clientAnswer
+	 * @return
+	 */
 	public static boolean isValid(HttpServletRequest request,
 			String clientAnswer) {
-		return new DefaultCheckCode(CODE_TYPE.DIGIT).isValid(request,
-				clientAnswer);
+		return CheckCode.isValid(request, clientAnswer);
 	}
 }

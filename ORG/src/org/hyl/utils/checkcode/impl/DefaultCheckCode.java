@@ -4,11 +4,21 @@ import java.util.Random;
 
 import org.hyl.utils.checkcode.CheckCode;
 
+/**
+ * CheckCode的简单实现类，提供三种选项{DIGIT,LETTER,DIGIT_LETTER}
+ * 
+ * @author HuYongliang
+ * @see CheckCode
+ */
 public class DefaultCheckCode extends CheckCode {
 
 	private char[] codeSequence;
 	private String rightAnswer;
 
+	/**
+	 * @param codeType
+	 *            {@link CODE_TYPE}类型的验证码类型
+	 */
 	public DefaultCheckCode(CODE_TYPE codeType) {
 		switch (codeType) {
 		case DIGIT:
@@ -27,12 +37,20 @@ public class DefaultCheckCode extends CheckCode {
 		}
 	}
 
+	/**
+	 * @param userCodeSequence
+	 *            用户自定义的用于产生验证码的字符序列
+	 */
 	public DefaultCheckCode(String userCodeSequence) {
 		if (userCodeSequence == null || userCodeSequence.equals(""))
 			throw new RuntimeException("用于生产验证码的序列不合法");
 		this.codeSequence = userCodeSequence.toCharArray();
 	}
 
+	/**
+	 * @param codeSequence
+	 *            用户自定义的用于产生验证码的字符序列
+	 */
 	public DefaultCheckCode(char[] codeSequence) {
 		this.codeSequence = codeSequence;
 	}

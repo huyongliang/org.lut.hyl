@@ -1,7 +1,4 @@
-package org.hyl.utils.checkcode; 
-
-
-//fdsakfjkadsk
+package org.hyl.utils.checkcode;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -12,8 +9,15 @@ import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * 验证码的基类<br>
+ * 使用时，client发送的验证码的name必须和本类的{@link CheckCode.CHECK_CODE_KEY}字段的值相符
+ * 
+ * @author HuYongliang
+ *
+ */
 public abstract class CheckCode {
-	protected String CHECK_CODE_KEY = "CHECK_CODE_KEY";
+	public static String CHECK_CODE_KEY = "CHECK_CODE_KEY";
 
 	protected int width = 152;
 	protected int height = 40;
@@ -26,6 +30,12 @@ public abstract class CheckCode {
 	protected int codeX = 0;
 	protected int codeY = 0;
 
+	/**
+	 * @param width
+	 *            验证码图片的宽度
+	 * @param height
+	 *            验证码图片的高度
+	 */
 	public CheckCode(int width, int height) {
 		super();
 		this.width = width;
@@ -38,15 +48,22 @@ public abstract class CheckCode {
 		this.init();
 	}
 
-	public CheckCode(int width, int height, int codeCount, int fontHeight,
-			int codeX, int codeY) {
+	/**
+	 * @param width
+	 *            验证码图片的宽度
+	 * @param height
+	 *            验证码图片的高度
+	 * @param codeCount
+	 *            验证码字符的数量
+	 * @param fontHeight
+	 *            字体的高度
+	 */
+	public CheckCode(int width, int height, int codeCount, int fontHeight) {
 		super();
 		this.width = width;
 		this.height = height;
 		this.codeCount = codeCount;
 		this.fontHeight = fontHeight;
-		this.codeX = codeX;
-		this.codeY = codeY;
 
 		this.init();
 	}
@@ -57,27 +74,9 @@ public abstract class CheckCode {
 		codeY = height - 4;
 	}
 
-	public boolean isValid(HttpServletRequest request, String result) {
-		if (result == null || result == "")
-			return false;
-		HttpSession sessioin = request.getSession(false);
-		if(sessioin==null)
-			return false;
-
-		String code = (String) sessioin.getAttribute(CHECK_CODE_KEY);
-		if (code == null || code == "")
-			return false;
-		if (code.equalsIgnoreCase(result)) {
-			sessioin.removeAttribute(CHECK_CODE_KEY);
-			return true;
-		}
-		return false;
-	};
-
 	protected abstract String getPrintString();
 
 	protected abstract String getRightAnswer();
-
 
 	public BufferedImage getCheckCode(HttpServletRequest request) {
 		char[] codeSequence = this.getPrintString().toCharArray();
@@ -151,8 +150,37 @@ public abstract class CheckCode {
 		graphics.setFont(font);
 	}
 
+	/**
+	 * 基类缺省提供的验证码的类型选项
+	 * 
+	 * @author HuYongliang
+	 *
+	 */
 	public enum CODE_TYPE {
 		DIGIT, LETTER, DIGIT_LETTER
 	}
 
+	/**
+	 * @param request
+	 * @param clientAnswer
+	 *            client发送的验证码
+	 * @return client发送的验证码是否正确
+	 */
+	public static boolean isValid(HttpServletRequest request,
+			String clientAnswer) {
+		if (clientAnswer == null || clientAnswer.equals(""))
+			return false;
+		HttpSession sessioin = request.getSession(false);
+		if (sessioin == null)
+			return false;
+
+		String code = (String) sessioin.getAttribute(CHECK_CODE_KEY);
+		if (code == null || code == "")
+			return false;
+		if (code.equalsIgnoreCase(clientAnswer)) {
+			sessioin.removeAttribute(CHECK_CODE_KEY);
+			return true;
+		}
+		return false;
+	}
 }

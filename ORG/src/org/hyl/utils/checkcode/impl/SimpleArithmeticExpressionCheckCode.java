@@ -4,6 +4,12 @@ import java.util.Random;
 
 import org.hyl.utils.checkcode.CheckCode;
 
+/**
+ * {@link CheckCode}的实现类，产生10以内的加减乘简单表达式的验证码
+ * 
+ * @author HuYongliang
+ *
+ */
 public class SimpleArithmeticExpressionCheckCode extends CheckCode {
 	private String printString;
 	private String rightAnswer;
