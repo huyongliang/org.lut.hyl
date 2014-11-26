@@ -30,41 +30,9 @@ public abstract class CheckCode {
 	protected int codeX = 0;
 	protected int codeY = 0;
 
-	/**
-	 * @param width
-	 *            验证码图片的宽度
-	 * @param height
-	 *            验证码图片的高度
-	 */
-	public CheckCode(int width, int height) {
-		super();
-		this.width = width;
-		this.height = height;
-		this.init();
-	}
-
 	public CheckCode() {
-		this(152, 40);
-		this.init();
-	}
-
-	/**
-	 * @param width
-	 *            验证码图片的宽度
-	 * @param height
-	 *            验证码图片的高度
-	 * @param codeCount
-	 *            验证码字符的数量
-	 * @param fontHeight
-	 *            字体的高度
-	 */
-	public CheckCode(int width, int height, int codeCount, int fontHeight) {
-		super();
-		this.width = width;
-		this.height = height;
-		this.codeCount = codeCount;
-		this.fontHeight = fontHeight;
-
+		this.width = 152;
+		this.height = 40;
 		this.init();
 	}
 
@@ -79,6 +47,7 @@ public abstract class CheckCode {
 	protected abstract String getRightAnswer();
 
 	public BufferedImage getCheckCode(HttpServletRequest request) {
+		this.init();
 		char[] codeSequence = this.getPrintString().toCharArray();
 		int len = codeSequence.length;
 		BufferedImage image = new BufferedImage(width, height,

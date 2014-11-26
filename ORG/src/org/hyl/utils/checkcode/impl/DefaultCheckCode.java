@@ -73,5 +73,18 @@ public class DefaultCheckCode extends CheckCode {
 			this.getPrintString();
 		return this.rightAnswer;
 	}
+	public DefaultCheckCode setWidth(int width) {
+		this.width = width;
+		return this;
+	}
 
+	public DefaultCheckCode setHeight(int height) {
+		this.height = height;
+		return this;
+	}
+
+	public DefaultCheckCode setCodeCount(int c) {
+		this.codeCount = c;
+		return this;
+	}
 }
